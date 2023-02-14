@@ -1,0 +1,57 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ master ]
+    paths: [ 'src/**.rs', 'Cargo.lock', 'Cargo.toml' ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron: 42 0 7 * *
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+        include:
+          - os: windows-latest
+            binary_path: target/debug/dezoomify-rs.exe
+          - os: macos-latest
+            binary_path: target/debug/dezoomify-rs
+          - os: ubuntu-latest
+            binary_path: target/debug/dezoomify-rs
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache cargo dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+      - uses: actions-rs/toolchain@v1
+        with: {toolchain: stable, override: true}
+      - name: build
+        uses: actions-rs/cargo@v1
+        with: { command: build, args: "--locked" }
+      - uses: actions/upload-artifact@v1
+        with:
+          name: dezoomify-rs ${{ matrix.os }}
+          path: ${{ matrix.binary_path }}
+      - name: test
+        uses: actions-rs/cargo@v1
+        with: { command: test }
+        env:
+          RUST_BACKTRACE: 1
+      - name: bench
+        uses: actions-rs/cargo@v1
+        with: { command: bench }
+        env:
+          RUST_BACKTRACE: 1
+      - run: rustup component add clippy
+      - name: clippy
+        uses: actions-rs/cargo@v1
+        with: { command: clippy, args: --tests -- -D warnings }
