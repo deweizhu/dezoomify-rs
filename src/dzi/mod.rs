@@ -89,6 +89,9 @@ fn load_from_dzi(url: &str, image_properties: DziFile) -> Result<ZoomLevels, Dzi
         format: image_properties.format.clone(),
         overlap: image_properties.overlap,
         level: max_level - level_num as u32,
+        //zhudw
+        max_level: image_properties.max_level,
+        separator: image_properties.separator.clone(),
     })
     .into_zoom_levels();
     Ok(levels)
@@ -101,6 +104,10 @@ struct DziLevel {
     format: String,
     overlap: u32,
     level: u32,
+
+    //zhudw
+    max_level: u32,
+    separator: String,
 }
 
 impl TilesRect for DziLevel {
@@ -113,14 +120,36 @@ impl TilesRect for DziLevel {
     }
 
     fn tile_url(&self, pos: Vec2d) -> String {
-        format!(
-            "{base}/{level}/{x}_{y}.{format}",
-            base = self.base_url,
-            level = self.level,
-            x = pos.x,
-            y = pos.y,
-            format = self.format
-        )
+        // format!(
+        //     "{base}/{level}/{x}_{y}.{format}",
+        //     base = self.base_url,
+        //     level = self.level,
+        //     x = pos.x,
+        //     y = pos.y,
+        //     format = self.format
+        // )
+        //zhudw
+        if self.separator != "" {
+            format!(
+                "{base}/{level}/{x}{sep}{y}.{format}",
+                base = self.base_url,
+                level = self.max_level,
+                x = pos.x,
+                sep = self.separator,
+                y = pos.y,
+                format = self.format
+            )
+        } else {
+            format!(
+                "{base}/{level}/{x}_{y}.{format}",
+                base = self.base_url,
+                level = self.level,
+                x = pos.x,
+                y = pos.y,
+                format = self.format
+            )
+        }
+
     }
 
     fn tile_ref(&self, pos: Vec2d) -> TileReference {

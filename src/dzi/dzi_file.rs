@@ -12,6 +12,12 @@ use super::DziError;
 pub struct DziFile {
     #[serde(rename = "Overlap", deserialize_with = "number_or_string", default)]
     pub overlap: u32,
+    //zhudw
+    #[serde(rename = "MaxLevel", deserialize_with = "number_or_string", default)]
+    pub max_level: u32,
+    #[serde(rename = "Separator")]
+    pub separator: String,
+
     #[serde(rename = "TileSize", deserialize_with = "number_or_string")]
     pub tile_size: u32,
     #[serde(rename = "Format")]
