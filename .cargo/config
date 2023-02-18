@@ -3,6 +3,6 @@ rustflags = ["-Ctarget-feature=+crt-static"]
 [target.i686-pc-windows-msvc]
 rustflags = ["-Ctarget-feature=+crt-static"]
 [target.x86_64-apple-darwin]
-linker = "gcc-arm-linux-gnueabihf"
+#linker = "gcc-arm-linux-gnueabihf"
 [target.aarch64-apple-darwin]
-linker = "gcc-arm-linux-gnueabihf"
+#linker = "gcc-arm-linux-gnueabihf"
