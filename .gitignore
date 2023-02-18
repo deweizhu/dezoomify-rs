@@ -2,6 +2,7 @@
 **/*.rs.bk
 dezoomify-rs.iml
 .idea/
+.fleet/
 /dezoomified.jpg
 /dezoomified_*.jpg
 .DS_Store

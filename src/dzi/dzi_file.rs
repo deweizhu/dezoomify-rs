@@ -15,7 +15,7 @@ pub struct DziFile {
     //zhudw
     #[serde(rename = "MaxLevel", deserialize_with = "number_or_string", default)]
     pub max_level: u32,
-    #[serde(rename = "Separator")]
+    #[serde(rename = "Separator", default)]
     pub separator: String,
 
     #[serde(rename = "TileSize", deserialize_with = "number_or_string")]
