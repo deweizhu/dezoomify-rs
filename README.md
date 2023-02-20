@@ -8,8 +8,8 @@
     "Url":      "[URL]",
     "Format":   "jpg",
     "Overlap":  "1", 
-	  "MaxLevel": "0",
-	  "Separator": "/",
+	"MaxLevel": "0",
+	"Separator": "/",
         "TileSize": "256",
         "Size": {
             "Height": "1805",
