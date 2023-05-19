@@ -108,6 +108,7 @@ impl Default for Arguments {
         Arguments {
             input_uri: None,
             outfile: None,
+            format: None,
             dezoomer: "auto".to_string(),
             largest: false,
             max_width: None,

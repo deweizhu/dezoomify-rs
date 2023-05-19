@@ -1,4 +1,4 @@
-本項目基於[dezoomify-rs](https://lovasoa.github.io/dezoomify-rs/) v2.9.4修改，只略作更改。
+本項目基於[dezoomify-rs](https://lovasoa.github.io/dezoomify-rs/) master 2023/05/18修改，只略作更改。
 
 修改後的deepzoom 支持json格式：
 ```

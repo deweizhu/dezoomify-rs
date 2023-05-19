@@ -49,7 +49,8 @@ static QUALITY_ORDER: [&str; 5] = ["bitonal", "gray", "color", "native", "defaul
 
 // Image formats, from least favorite to favorite
 // webp is the least favorite because of this bug: https://github.com/image-rs/image/issues/939
-static FORMAT_ORDER: [&str; 7] = ["webp", "gif", "bmp", "tif", "jpg", "jpeg", "png"];
+// zhudw 调整JPG为优先图片，最大的key
+static FORMAT_ORDER: [&str; 7] = ["webp", "gif", "bmp", "tif", "png","jpeg", "jpg"];
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum TileSizeFormat { WidthHeight, Width }
@@ -239,8 +240,8 @@ impl Profile {
                         warn!("Unknown IIIF profile reference: {}", s);
                         Cow::Owned(ProfileInfo::default())
                     })
-            },
-            Profile::Info(info) => { Cow::Borrowed(info) },
+            }
+            Profile::Info(info) => { Cow::Borrowed(info) }
             Profile::Multiple(profiles) => {
                 let mut formats = vec![];
                 let mut qualities = vec![];
@@ -272,7 +273,7 @@ impl Profile {
                     max_height,
                     max_area,
                 })
-            },
+            }
         }
     }
 }
@@ -308,7 +309,7 @@ fn test_deserialisation() {
       "profile" : [ "http://iiif.io/api/image/2/level2.json" ]
     }"#,
     )
-    .unwrap();
+        .unwrap();
 }
 
 #[test]
@@ -324,7 +325,7 @@ fn test_profile_info() {
             max_width: Some(78),
             max_height: Some(94),
             ..Default::default()
-        })
+        }),
     ]));
     assert_eq!(*profiles.profile_info(), ProfileInfo {
         formats: Some(vec!["jpg".into()]), // from level0
